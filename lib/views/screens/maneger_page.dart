@@ -16,6 +16,11 @@ class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade200,
+        title: Text("Home Page"),
+        centerTitle: true,
+      ),
       body: pages[curentIndex],
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height / 13,

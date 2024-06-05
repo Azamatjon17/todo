@@ -21,6 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    userController.getUser();
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(

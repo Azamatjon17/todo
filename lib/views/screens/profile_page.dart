@@ -14,8 +14,13 @@ class _ProfilePageState extends State<ProfilePage> {
   UserController userController = UserController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     userController.getUser();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
@@ -26,49 +31,58 @@ class _ProfilePageState extends State<ProfilePage> {
             centerTitle: true,
             actions: [
               IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) => EditProfile(
-                              user: userController.user,
-                              setState: () {
-                                setState(() {});
-                              },
-                            ));
-                  },
-                  icon: const Icon(Icons.edit))
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => EditProfile(
+                      user: userController.user,
+                      setState: () {
+                        setState(() {});
+                      },
+                      userController: userController,
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.edit),
+              ),
             ],
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    backgroundImage: NetworkImage(
-                      userController.user.imageUri ?? "https://static.vecteezy.com/system/resources/thumbnails/019/900/306/small/happy-young-cute-illustration-face-profile-png.png",
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      backgroundImage: NetworkImage(
+                        userController.user.imageUri ?? "https://static.vecteezy.com/system/resources/thumbnails/019/900/306/small/happy-young-cute-illustration-face-profile-png.png",
+                      ),
+                      radius: 50,
                     ),
-                    radius: 50,
                   ),
-                ),
-                Text(
-                  "Name :   ${userController.user.name ?? "Hali ism Joylanmagan "}",
-                  style: const TextStyle(fontSize: 15),
-                ),
-                Text(
-                  "Surname :   ${userController.user.surname ?? "Hali familya Joylanmagan "}",
-                  style: const TextStyle(fontSize: 15),
-                ),
-                Text(
-                  "Number :   ${userController.user.phoneNumber ?? "Hali raqam Joylanmagan "}",
-                  style: const TextStyle(fontSize: 15),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Text(
+                    "Name: ${userController.user.name ?? "Hali ism Joylanmagan"}",
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Surname: ${userController.user.surname ?? "Hali familya Joylanmagan"}",
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Number: ${userController.user.phoneNumber ?? "Hali raqam Joylanmagan"}",
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ],
+              ),
             ),
           ),
-          Expanded(child: Container())
+          const Spacer(),
         ],
       ),
     );

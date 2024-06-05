@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/views/screens/home_page.dart';
+import 'package:todo/views/screens/profile_page.dart';
+import 'package:todo/views/screens/statistics_page.dart';
 
 class ManagerPage extends StatefulWidget {
   const ManagerPage({super.key});
@@ -10,54 +11,95 @@ class ManagerPage extends StatefulWidget {
 }
 
 class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin {
-  List<Widget> pages = [HomePage()];
+  List<Widget> pages = [const HomePage(), const StatisticsPage(), const ProfilePage()];
   int curentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
-        title: Text("Home Page"),
-        centerTitle: true,
-      ),
       body: pages[curentIndex],
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height / 13,
+        height: MediaQuery.of(context).size.height / 11,
         decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)), color: Colors.white),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            InkWell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.home,
-                    size: 30,
-                    color: curentIndex == 0 ? Colors.deepPurpleAccent : Colors.grey,
-                  ),
-                  Text(
-                    "Home",
-                    style: TextStyle(
+            Expanded(
+              child: IconButton(
+                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                onPressed: () {
+                  curentIndex = 0;
+                  setState(() {});
+                },
+                icon: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.home,
+                      size: 25,
                       color: curentIndex == 0 ? Colors.deepPurpleAccent : Colors.grey,
                     ),
-                  )
-                ],
+                    if (curentIndex == 0)
+                      const Text(
+                        "Home",
+                        style: TextStyle(color: Colors.deepPurpleAccent),
+                      )
+                  ],
+                ),
               ),
             ),
-            TextButton.icon(
-              onPressed: () {},
-              label: curentIndex == 1 ? const Text("Statistics") : const Text(""),
-              icon: Icon(Icons.bar_chart_rounded),
+            Expanded(
+              child: IconButton(
+                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                onPressed: () {
+                  curentIndex = 1;
+                  setState(() {});
+                },
+                icon: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.bar_chart_outlined,
+                      size: 25,
+                      color: curentIndex == 1 ? Colors.deepPurpleAccent : Colors.grey,
+                    ),
+                    if (curentIndex == 1)
+                      const Text(
+                        "Statistics",
+                        style: TextStyle(color: Colors.deepPurpleAccent),
+                      )
+                  ],
+                ),
+              ),
             ),
-            TextButton.icon(
-              onPressed: () {},
-              label: curentIndex == 2 ? Text("Profile") : Text(""),
-              icon: Icon(Icons.person),
-            )
+            Expanded(
+              child: IconButton(
+                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                onPressed: () {
+                  curentIndex = 2;
+                  setState(() {});
+                },
+                icon: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      size: 25,
+                      color: curentIndex == 2 ? Colors.deepPurpleAccent : Colors.grey,
+                    ),
+                    if (curentIndex == 2)
+                      const Text(
+                        "Profile",
+                        style: TextStyle(color: Colors.deepPurpleAccent),
+                      )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

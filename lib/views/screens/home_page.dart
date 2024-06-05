@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo/views/screens/note_page.dart';
-import 'package:todo/views/screens/todo_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,15 +6,20 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
+          AppBar(
+            backgroundColor: Colors.grey.shade200,
+            title: const Text("Home Page"),
+            centerTitle: true,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TodoPage()));
+                  Navigator.pushNamed(context, '/todo');
                 },
                 child: Card(
                   color: Colors.amber,
@@ -33,12 +36,7 @@ class HomePage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NotePage(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/note');
                 },
                 child: Card(
                   color: Colors.amber,

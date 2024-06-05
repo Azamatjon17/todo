@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:todo/views/screens/home_page.dart';
 import 'package:todo/views/screens/maneger_page.dart';
+import 'package:todo/views/screens/note_page.dart';
+import 'package:todo/views/screens/todo_page.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ManagerPage(),
+      routes: {
+        '/todo': (context) => const TodoPage(),
+        '/note': (context) => const NotePage(),
+        '/home': (context) => const HomePage(),
+      },
+      home: const ManagerPage(),
     );
   }
 }

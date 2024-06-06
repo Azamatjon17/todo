@@ -16,6 +16,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     userController.getUser();
   }
 
@@ -67,17 +68,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Name: ${userController.user.name ?? "Hali ism Joylanmagan"}",
+                    "Name: ${userController.user.name}",
                     style: const TextStyle(fontSize: 15),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Surname: ${userController.user.surname ?? "Hali familya Joylanmagan"}",
+                    "Surname: ${userController.user.surname}",
                     style: const TextStyle(fontSize: 15),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Number: ${userController.user.phoneNumber ?? "Hali raqam Joylanmagan"}",
+                    "Number: ${userController.user.phoneNumber}",
                     style: const TextStyle(fontSize: 15),
                   ),
                 ],

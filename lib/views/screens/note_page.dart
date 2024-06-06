@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo/controllers/note_controller.dart';
 import 'package:todo/models/note_model.dart';
-import 'package:todo/views/widgets/add_note.dart';
-import 'package:todo/views/widgets/note_delete.dart';
-import 'package:todo/views/widgets/note_edit.dart';
+import 'package:todo/views/widgets/note_actions/add_note.dart';
+import 'package:todo/views/widgets/note_actions/note_delete.dart';
+import 'package:todo/views/widgets/note_actions/note_edit.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({super.key});

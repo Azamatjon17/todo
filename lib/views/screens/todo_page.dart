@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo/controllers/todo_controllers.dart';
 import 'package:todo/models/todo_model.dart';
-import 'package:todo/views/widgets/add_todo.dart';
-import 'package:todo/views/widgets/todo_delete.dart';
-import 'package:todo/views/widgets/todo_edit.dart';
+import 'package:todo/views/widgets/todo_actions/add_todo.dart';
+import 'package:todo/views/widgets/todo_actions/todo_delete.dart';
+import 'package:todo/views/widgets/todo_actions/todo_edit.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});

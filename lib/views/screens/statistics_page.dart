@@ -53,38 +53,40 @@ class _StatisticsPageState extends State<StatisticsPage> {
           backgroundColor: Colors.grey.shade200,
           centerTitle: true,
         ),
-        FutureBuilder(
-            future: todoandnote(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+        Expanded(
+          child: FutureBuilder(
+              future: todoandnote(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Row(
+                  children: [
+                    Card(
+                      child: SizedBox(
+                        height: 150,
+                        width: MediaQuery.of(context).size.width / 2 - 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: countTodo(snapshot.data![0]),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: SizedBox(
+                        height: 150,
+                        width: MediaQuery.of(context).size.width / 2 - 10,
+                        child: Center(
+                          child: Text("Jami notelar soni ${snapshot.data![1].length}"),
+                        ),
+                      ),
+                    )
+                  ],
                 );
-              }
-              return Row(
-                children: [
-                  Card(
-                    child: SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: countTodo(snapshot.data![0]),
-                      ),
-                    ),
-                  ),
-                  Card(
-                    child: SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: Center(
-                        child: Text("Jami notelar soni ${snapshot.data![1].length}"),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            })
+              }),
+        )
       ],
     );
   }

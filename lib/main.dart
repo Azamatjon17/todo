@@ -36,7 +36,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       } else {
         AppConsts.themeMode = ThemeMode.dark;
       }
-      
     });
   }
 

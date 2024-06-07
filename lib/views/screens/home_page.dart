@@ -10,7 +10,6 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            backgroundColor: Colors.grey.shade200,
             title: const Text("Home Page"),
             centerTitle: true,
           ),

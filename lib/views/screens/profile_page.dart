@@ -43,7 +43,6 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           AppBar(
             title: const Text("Profile Page"),
-            backgroundColor: Colors.grey.shade200,
             centerTitle: true,
             actions: [
               IconButton(

@@ -47,7 +47,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
       children: [
         AppBar(
           title: const Text("Statistic Page"),
-          backgroundColor: Colors.grey.shade200,
           centerTitle: true,
         ),
         Expanded(

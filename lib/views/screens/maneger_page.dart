@@ -18,12 +18,12 @@ class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerPage(),
-      backgroundColor: Colors.grey.shade200,
       body: pages[curentIndex],
-                                                                    
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height / 11,
-        decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)), color: Colors.white),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,

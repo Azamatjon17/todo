@@ -25,8 +25,6 @@ class NoteController {
   }
 
   Future<void> editNote(Note note) async {
-    await localDatabase.database;
-    print(note.content);
     await localDatabase.database.then((database) {
       database.update(
           'notes',

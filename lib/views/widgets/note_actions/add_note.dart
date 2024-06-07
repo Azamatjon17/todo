@@ -43,8 +43,10 @@ class _AddNoteState extends State<AddNote> {
       titleError = titleController.text.isEmpty ? 'Title cannot be empty' : null;
       contentError = contentController.text.isEmpty ? 'Description cannot be empty' : null;
     });
-
+    print(titleController.text);
     if (titleError == null || contentError == null || noteDate != null) {
+      print(titleController.text);
+
       noteTitle = titleController.text;
       noteContent = contentController.text;
       await widget.noteController.addNote(Note(id: UniqueKey().toString(), title: noteTitle, content: noteContent, createdDate: noteDate!));

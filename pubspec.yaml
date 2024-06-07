@@ -41,6 +41,7 @@ dependencies:
   firebase_database: ^10.5.7
   gap: ^3.0.1
   shared_preferences: ^2.2.3
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_test:

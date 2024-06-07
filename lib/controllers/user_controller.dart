@@ -15,9 +15,9 @@ class UserController {
 
   getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _user!.name = prefs.getString('userName') ?? "";
-    _user!.surname = prefs.getString('userName') ?? "";
-    _user!.phoneNumber = prefs.getString("userphoneNumber") ?? "";
-    _user!.imageUri = prefs.getString("userimageUri") ?? "";
+    _user.name = prefs.getString('userName') ?? "";
+    _user.surname = prefs.getString('userName') ?? "";
+    _user.phoneNumber = prefs.getString("userphoneNumber") ?? "";
+    _user.imageUri = prefs.getString("userimageUri") ?? "";
   }
 }

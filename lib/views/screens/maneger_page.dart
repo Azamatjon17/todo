@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/views/screens/home_page.dart';
 import 'package:todo/views/screens/profile_page.dart';
 import 'package:todo/views/screens/statistics_page.dart';
+import 'package:todo/views/widgets/drawer/drawer_page.dart';
 
 class ManagerPage extends StatefulWidget {
   const ManagerPage({super.key});
@@ -16,8 +17,10 @@ class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerPage(),
       backgroundColor: Colors.grey.shade200,
       body: pages[curentIndex],
+                                                                    
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height / 11,
         decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)), color: Colors.white),

@@ -12,17 +12,30 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   UserController userController = UserController();
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    fetchUser();
+  }
+
+  void fetchUser() async {
+    await userController.getUser();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void refreshProfile() {
     setState(() {});
-    userController.getUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    userController.getUser();
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -40,9 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     isScrollControlled: true,
                     builder: (context) => EditProfile(
                       user: userController.user,
-                      setState: () {
-                        setState(() {});
-                      },
+                      onSave: refreshProfile,
                       userController: userController,
                     ),
                   );

@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:todo/controllers/note_controller.dart';
 import 'package:todo/controllers/todo_controllers.dart';
-import 'package:todo/models/note_model.dart';
 import 'package:todo/models/todo_model.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -60,6 +57,17 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(),
+                  );
+                }
+
+                if (!snapshot.hasData) {
+                  const Center(
+                    child: Text("Malumot yo'q"),
+                  );
+                }
+                if (snapshot.hasError) {
+                  const Center(
+                    child: Text("Malumot olishda hatolik bor"),
                   );
                 }
                 return Row(

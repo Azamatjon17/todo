@@ -3,7 +3,6 @@ import 'package:todo/models/todo_model.dart';
 import 'package:http/http.dart' as http;
 
 class TodoControllers {
-  
   List<Todo> _list = [];
   List<Todo> get list => [..._list];
 
@@ -18,7 +17,6 @@ class TodoControllers {
 
       if (json != null) {
         json.forEach((String key, dynamic value) {
-          print(key);
           todos.add(Todo.fromJson(
             key,
             value,

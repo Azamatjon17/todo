@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo/controllers/course_controller.dart';
 import 'package:todo/models/course.dart';
+import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/course_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,9 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  aa() {
+    setState(() {});
+  }
+
   CourseController courseController = CourseController();
   @override
   Widget build(BuildContext context) {
+    AppConsts.setMainState = aa;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
@@ -23,6 +29,13 @@ class _HomePageState extends State<HomePage> {
           AppBar(
             title: const Text("Home Page"),
             centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  icon: const Icon(Icons.replay_outlined))
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,9 +135,13 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Gap(10),
-                                Text(
-                                  courses[index].title,
-                                  style: const TextStyle(fontSize: 25),
+                                Row(
+                                  children: [
+                                    Text(
+                                      courses[index].title,
+                                      style: const TextStyle(fontSize: 25),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

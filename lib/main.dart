@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         '/settings': (context) => SettingsPage(
               setMain: toggleThemeMode,
             ),
-        '/admin': (context) => const AdminPanelPage(),
+        '/admin': (context) =>  AdminPanelPage(mainSetState: toggleThemeMode,),
       },
       home: const ManagerPage(),
     );

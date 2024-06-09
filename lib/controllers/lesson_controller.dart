@@ -8,6 +8,8 @@ class LessonController {
 
   List<Lesson> _list = [];
 
+  List<Lesson> get list => [..._list];
+
   Future<List<Lesson>> getLessons() async {
     List<Lesson> lessons = [];
     final uri = Uri.parse("https://todo-2a867-default-rtdb.firebaseio.com/lessons.json");

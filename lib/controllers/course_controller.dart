@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:todo/models/course.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo/models/lesson.dart';
+import 'package:todo/models/quizes.dart';
 
 class CourseController {
   List<Course> _list = [];
@@ -49,7 +50,9 @@ class CourseController {
           id: key,
           courseId: value['courseId'],
           description: value['description'],
-          quizes: value['quizes'],
+          quizes: [
+            Quiz(id: "id", question: "question", options: ["options"], correctOptionIndex: 1)
+          ],
           title: value['title'],
           videoUrl: value['videoUrl'],
         );

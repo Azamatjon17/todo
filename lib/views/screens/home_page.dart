@@ -90,43 +90,48 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(10),
                   itemCount: courses.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CourseScreen(
-                                course: courses[index],
-                              ),
-                            ),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                              child: FadeInImage(
-                                height: 170,
-                                width: double.infinity,
-                                placeholder: const AssetImage('assets/gifs/loading2.gif'),
-                                image: NetworkImage(
-                                  courses[index].imageUrl,
+                    return Column(
+                      children: [
+                        Card(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CourseScreen(
+                                    course: courses[index],
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
-                              ),
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                                  child: FadeInImage(
+                                    height: 170,
+                                    width: double.infinity,
+                                    placeholder: const AssetImage('assets/gifs/loading2.gif'),
+                                    image: NetworkImage(
+                                      courses[index].imageUrl,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const Gap(10),
+                                Text(
+                                  courses[index].title,
+                                  style: const TextStyle(fontSize: 25),
+                                ),
+                              ],
                             ),
-                            const Gap(10),
-                            Text(
-                              courses[index].title,
-                              style: const TextStyle(fontSize: 25),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const Gap(20)
+                      ],
                     );
                   });
             },

@@ -12,13 +12,22 @@ class ManagerPage extends StatefulWidget {
 }
 
 class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin {
-  List<Widget> pages = [const HomePage(), const StatisticsPage(), const ProfilePage()];
-  int curentIndex = 0;
+  int currentIndex = 0;
+
+  final List<Widget> pages = [
+    const HomePage(),
+    const StatisticsPage(),
+    const ProfilePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerPage(),
-      body: pages[curentIndex],
+      drawer: const DrawerPage(),
+      body: IndexedStack(
+        index: currentIndex,
+        children: pages,
+      ),
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height / 11,
         decoration: const BoxDecoration(
@@ -28,81 +37,38 @@ class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Expanded(
-              child: IconButton(
-                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                onPressed: () {
-                  curentIndex = 0;
-                  setState(() {});
-                },
-                icon: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.home,
-                      size: 25,
-                      color: curentIndex == 0 ? Colors.deepPurpleAccent : Colors.grey,
-                    ),
-                    if (curentIndex == 0)
-                      const Text(
-                        "Home",
-                        style: TextStyle(color: Colors.deepPurpleAccent),
-                      )
-                  ],
-                ),
-              ),
+            _buildNavItem(icon: Icons.home, index: 0, label: "Home"),
+            _buildNavItem(icon: Icons.bar_chart_outlined, index: 1, label: "Statistics"),
+            _buildNavItem(icon: Icons.person, index: 2, label: "Profile"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem({required IconData icon, required int index, required String label}) {
+    return Expanded(
+      child: IconButton(
+        style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+        onPressed: () {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        icon: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 25,
+              color: currentIndex == index ? Colors.deepPurpleAccent : Colors.grey,
             ),
-            Expanded(
-              child: IconButton(
-                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                onPressed: () {
-                  curentIndex = 1;
-                  setState(() {});
-                },
-                icon: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.bar_chart_outlined,
-                      size: 25,
-                      color: curentIndex == 1 ? Colors.deepPurpleAccent : Colors.grey,
-                    ),
-                    if (curentIndex == 1)
-                      const Text(
-                        "Statistics",
-                        style: TextStyle(color: Colors.deepPurpleAccent),
-                      )
-                  ],
-                ),
+            if (currentIndex == index)
+              Text(
+                label,
+                style: const TextStyle(color: Colors.deepPurpleAccent),
               ),
-            ),
-            Expanded(
-              child: IconButton(
-                style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                onPressed: () {
-                  curentIndex = 2;
-                  setState(() {});
-                },
-                icon: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.person,
-                      size: 25,
-                      color: curentIndex == 2 ? Colors.deepPurpleAccent : Colors.grey,
-                    ),
-                    if (curentIndex == 2)
-                      const Text(
-                        "Profile",
-                        style: TextStyle(color: Colors.deepPurpleAccent),
-                      )
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

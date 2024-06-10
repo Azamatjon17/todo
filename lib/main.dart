@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/admin_panel_page.dart';
 import 'package:todo/views/screens/home_page.dart';
+import 'package:todo/views/screens/login_vs_register/login_page.dart';
 import 'package:todo/views/screens/maneger_page.dart';
 import 'package:todo/views/screens/note_page.dart';
 import 'package:todo/views/screens/settings_page.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  bool isToken = false;
   @override
   void initState() {
     super.initState();
@@ -35,6 +37,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         AppConsts.themeMode = ThemeMode.light;
       } else {
         AppConsts.themeMode = ThemeMode.dark;
+      }
+
+      String? dateTimes = sharedPreference.getString("tokenTime");
+      if (dateTimes != null) {
+        DateTime time = DateTime.parse(dateTimes);
+        isToken = DateTime.now().isBefore(time);
       }
     });
   }
@@ -70,9 +78,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         '/settings': (context) => SettingsPage(
               setMain: toggleThemeMode,
             ),
-        '/admin': (context) =>  AdminPanelPage(mainSetState: toggleThemeMode,),
+        '/admin': (context) => AdminPanelPage(
+              mainSetState: toggleThemeMode,
+            ),
       },
-      home: const ManagerPage(),
+      home: isToken ? const ManagerPage() : const LoginScreen(),
     );
   }
 }

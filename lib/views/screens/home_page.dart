@@ -13,14 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  aa() {
-    setState(() {});
-  }
-
   CourseController courseController = CourseController();
   @override
   Widget build(BuildContext context) {
-    AppConsts.setMainState = aa;
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(

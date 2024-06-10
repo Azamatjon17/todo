@@ -22,21 +22,27 @@ class _RegisterPageState extends State<RegisterPage> {
   String invalidPassword = "";
 
   saveRegister() async {
-    setState(() {
-      isLodaing = true;
-    });
     if (formkey.currentState!.validate()) {
       formkey.currentState!.save();
+      dynamic error = await checkUserServes.register(logindata, passworddata, "signUp");
+
       if (passworddata == passworddata2) {
-        await checkUserServes.register(logindata, passworddata, "signUp");
-        Navigator.pushReplacement(
-            // ignore: use_build_context_synchronously
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-            ));
+        setState(() {
+          isLodaing = true;
+        });
+        if (error != null) {
+          Navigator.pushReplacement(
+              // ignore: use_build_context_synchronously
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ));
+        }
       } else {
-        invalidPassword = "Ikkinchi parol mos kelmadi";
+        setState(() {
+          isLodaing = false;
+          invalidPassword = error.toString();
+        });
       }
     }
     setState(() {});
@@ -70,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   invalidPassword,
                   style: const TextStyle(fontSize: 15, color: Colors.red),
                 ),
+                const Gap(15),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'email',

@@ -12,40 +12,49 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  bool isLodaing = false;
+  bool isLoading = false;
   CheckUserServes checkUserServes = CheckUserServes();
-  final formkey = GlobalKey<FormState>();
-  bool isPasswordVisablety = true;
-  String logindata = "";
-  String passworddata = "";
-  String passworddata2 = "";
-  String invalidPassword = "";
+  final formKey = GlobalKey<FormState>();
+  bool isPasswordVisibility = true;
+  String emailData = "";
+  String passwordData = "";
+  String passwordData2 = "";
+  String errorMessage = "";
 
   saveRegister() async {
-    if (formkey.currentState!.validate()) {
-      formkey.currentState!.save();
-      dynamic error = await checkUserServes.register(logindata, passworddata, "signUp");
-
-      if (passworddata == passworddata2) {
+    if (formKey.currentState!.validate()) {
+      if (passwordData != passwordData2) {
         setState(() {
-          isLodaing = true;
+          errorMessage = "Passwords do not match";
         });
-        if (error != null) {
-          Navigator.pushReplacement(
-              // ignore: use_build_context_synchronously
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ));
-        }
+        return;
+      }
+
+      formKey.currentState!.save();
+      setState(() {
+        isLoading = true;
+        errorMessage = "";
+      });
+
+      final response = await checkUserServes.register(emailData, passwordData, "signUp");
+
+      setState(() {
+        isLoading = false;
+      });
+
+      if (response.containsKey('idToken')) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
       } else {
         setState(() {
-          isLodaing = false;
-          invalidPassword = error.toString();
+          errorMessage = response['message'] ?? 'Registration failed. Please try again.';
         });
       }
     }
-    setState(() {});
   }
 
   @override
@@ -67,19 +76,20 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(
-            key: formkey,
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  invalidPassword,
-                  style: const TextStyle(fontSize: 15, color: Colors.red),
-                ),
+                if (errorMessage.isNotEmpty)
+                  Text(
+                    errorMessage,
+                    style: const TextStyle(fontSize: 15, color: Colors.red),
+                  ),
                 const Gap(15),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'email',
+                    labelText: 'Email',
                     labelStyle: const TextStyle(color: Colors.white),
                     prefixIcon: const Icon(Icons.person, color: Colors.white),
                     filled: true,
@@ -92,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderSide: const BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    helperText: "Namuna: exemple@gmail.com",
+                    helperText: "Example: example@gmail.com",
                     helperStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -101,27 +111,28 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "xato email kiritildi";
+                      return "Invalid email entered";
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    logindata = value!;
+                    emailData = value!;
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  obscureText: isPasswordVisablety,
+                  obscureText: isPasswordVisibility,
                   decoration: InputDecoration(
-                    labelText: 'Parol',
+                    labelText: 'Password',
                     labelStyle: const TextStyle(color: Colors.white),
                     suffixIcon: IconButton(
                       onPressed: () {
-                        isPasswordVisablety = !isPasswordVisablety;
-                        setState(() {});
+                        setState(() {
+                          isPasswordVisibility = !isPasswordVisibility;
+                        });
                       },
                       icon: Icon(
-                        isPasswordVisablety ? CupertinoIcons.eye_slash : CupertinoIcons.eye_fill,
+                        isPasswordVisibility ? CupertinoIcons.eye_slash : CupertinoIcons.eye_fill,
                         color: Colors.white,
                       ),
                     ),
@@ -136,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderSide: const BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    helperText: "Namuna: password",
+                    helperText: "Example: password",
                     helperStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -145,19 +156,19 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "xato parol kiritildi";
+                      return "Invalid password entered";
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    passworddata = value!;
+                    passwordData = value!;
                   },
                 ),
                 const Gap(10),
                 TextFormField(
-                  obscureText: isPasswordVisablety,
+                  obscureText: isPasswordVisibility,
                   decoration: InputDecoration(
-                    labelText: 'Parol tasdiqlash',
+                    labelText: 'Confirm Password',
                     labelStyle: const TextStyle(color: Colors.white),
                     prefixIcon: const Icon(Icons.lock, color: Colors.white),
                     filled: true,
@@ -170,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderSide: const BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    helperText: "Namuna: password confirm",
+                    helperText: "Example: password confirm",
                     helperStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -179,25 +190,25 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "xato parol kiritildi";
+                      return "Invalid password entered";
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    passworddata2 = value!;
+                    passwordData2 = value!;
                   },
                 ),
                 const Gap(5),
                 InkWell(
-                  onTap: saveRegister,
+                  onTap: isLoading ? null : saveRegister,
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.blue),
-                    child: isLodaing
+                    child: isLoading
                         ? const CircularProgressIndicator()
                         : const Text(
-                            "Create acount",
+                            "Create account",
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                           ),
                   ),

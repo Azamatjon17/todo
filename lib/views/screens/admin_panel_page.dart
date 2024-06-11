@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:todo/controllers/course_controller.dart';
 import 'package:todo/models/course.dart';
 import 'package:todo/views/screens/course_lessons_page.dart';
-import 'package:todo/views/screens/course_screen.dart';
 
 class AdminPanelPage extends StatefulWidget {
   final Function() mainSetState;
@@ -18,9 +17,9 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
 
   void _showCourseDialog({Course? course}) {
     final isEditing = course != null;
-    final titleController = TextEditingController(text: isEditing ? course!.title : '');
-    final descriptionController = TextEditingController(text: isEditing ? course!.description : '');
-    final imageUrlController = TextEditingController(text: isEditing ? course!.imageUrl : '');
+    final titleController = TextEditingController(text: isEditing ? course.title : '');
+    final descriptionController = TextEditingController(text: isEditing ? course.description : '');
+    final imageUrlController = TextEditingController(text: isEditing ? course.imageUrl : '');
 
     showDialog(
       context: context,
@@ -60,7 +59,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
 
               if (isEditing) {
                 final updatedCourse = Course(
-                  id: course!.id,
+                  id: course.id,
                   title: title,
                   description: description,
                   imageUrl: imageUrl,
@@ -79,6 +78,7 @@ class _AdminPanelPageState extends State<AdminPanelPage> {
               }
               widget.mainSetState();
               setState(() {});
+              // ignore: use_build_context_synchronously
               Navigator.pop(context);
             },
             child: Text(isEditing ? 'Update' : 'Add'),

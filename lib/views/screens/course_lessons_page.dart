@@ -59,18 +59,18 @@ class _CourseLessonsPageState extends State<CourseLessonsPage> {
   }
 
   void _showEditLessonDialog(Lesson lesson) async {
-    TextEditingController _editLessonTitleController = TextEditingController(text: lesson.title);
-    TextEditingController _editLessonDescriptionController = TextEditingController(text: lesson.description);
-    TextEditingController _editLessonVideoUrlController = TextEditingController(text: lesson.videoUrl);
+    TextEditingController editLessonTitleController = TextEditingController(text: lesson.title);
+    TextEditingController editLessonDescriptionController = TextEditingController(text: lesson.description);
+    TextEditingController editLessonVideoUrlController = TextEditingController(text: lesson.videoUrl);
 
     Lesson updatedLesson = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Edit Lesson"),
         content: _buildLessonForm(
-          titleController: _editLessonTitleController,
-          descriptionController: _editLessonDescriptionController,
-          videoUrlController: _editLessonVideoUrlController,
+          titleController: editLessonTitleController,
+          descriptionController: editLessonDescriptionController,
+          videoUrlController: editLessonVideoUrlController,
         ),
         actions: [
           TextButton(
@@ -85,9 +85,9 @@ class _CourseLessonsPageState extends State<CourseLessonsPage> {
               Lesson editedLesson = Lesson(
                 id: lesson.id,
                 courseId: lesson.courseId,
-                title: _editLessonTitleController.text,
-                description: _editLessonDescriptionController.text,
-                videoUrl: _editLessonVideoUrlController.text,
+                title: editLessonTitleController.text,
+                description: editLessonDescriptionController.text,
+                videoUrl: editLessonVideoUrlController.text,
                 quizes: [quiz],
               );
               Navigator.pop(context, editedLesson);

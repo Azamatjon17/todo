@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       }
 
       String? dateTimes = sharedPreference.getString("tokenTime");
+      dateTimes = null;
       if (dateTimes != null) {
         DateTime time = DateTime.parse(dateTimes);
         isToken = DateTime.now().isBefore(time);

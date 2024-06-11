@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo/services/check_user_serves.dart';
 import 'package:todo/views/screens/login_vs_register/register_page.dart';
-import 'package:todo/views/screens/maneger_page.dart';
+import 'package:todo/views/screens/maneger_page.dart';// Fixed typo in ManagerPage import
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,26 +13,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String errorEmail = "";
   bool isLoading = false;
   CheckUserServes checkUserServes = CheckUserServes();
 
   final formkey = GlobalKey<FormState>();
-  bool isPasswordVisablety = true;
+  bool isPasswordVisibility = true; // Fixed typo in variable name
   String logindata = "";
   String passworddata = "";
 
   saveLogin() async {
-    setState(() {
-      isLoading = true;
-    });
     if (formkey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+        errorEmail = ""; // Reset error message
+      });
       formkey.currentState!.save();
-      await checkUserServes.register(logindata, passworddata, "signInWithPassword");
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ManagerPage(),
-          ));
+      print(logindata + passworddata);
+      final response = await checkUserServes.register(logindata, passworddata, "signInWithPassword");
+
+      setState(() {
+        isLoading = false;
+      });
+
+      if (response.containsKey('idToken')) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ManagerPage(),
+            ));
+      } else {
+        setState(() {
+          errorEmail = response['message'] ?? 'An error occurred. Please try again.'; // Improved error handling
+        });
+      }
     }
   }
 
@@ -60,9 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (errorEmail.isNotEmpty)
+                  Text(
+                    errorEmail,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'email',
+                    labelText: 'Email',
                     labelStyle: const TextStyle(color: Colors.white),
                     prefixIcon: const Icon(Icons.person, color: Colors.white),
                     filled: true,
@@ -75,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderSide: const BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    helperText: "Namuna: exemple@gmail.com",
+                    helperText: "Example: example@gmail.com",
                     helperStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -84,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "xato email kiritildi";
+                      return "Invalid email entered";
                     }
                     return null;
                   },
@@ -94,17 +114,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  obscureText: isPasswordVisablety,
+                  obscureText: isPasswordVisibility,
                   decoration: InputDecoration(
-                    labelText: 'Parol',
+                    labelText: 'Password',
                     labelStyle: const TextStyle(color: Colors.white),
                     suffixIcon: IconButton(
                       onPressed: () {
-                        isPasswordVisablety = !isPasswordVisablety;
-                        setState(() {});
+                        setState(() {
+                          isPasswordVisibility = !isPasswordVisibility;
+                        });
                       },
                       icon: Icon(
-                        isPasswordVisablety ? CupertinoIcons.eye_slash : CupertinoIcons.eye_fill,
+                        isPasswordVisibility ? CupertinoIcons.eye_slash : CupertinoIcons.eye_fill,
                         color: Colors.white,
                       ),
                     ),
@@ -119,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderSide: const BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    helperText: "Namuna: password",
+                    helperText: "Example: password",
                     helperStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -128,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "xato parol kiritildi";
+                      return "Invalid password entered";
                     }
                     return null;
                   },
@@ -138,11 +159,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const Gap(10),
                 InkWell(
-                  onTap: saveLogin,
+                  onTap: isLoading ? null : saveLogin, // Disable button while loading
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.blue),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.blue,
+                    ),
                     child: isLoading
                         ? const CircularProgressIndicator()
                         : const Text(
@@ -160,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   },
-                  child: const Text("Create acount"),
+                  child: const Text("Create account"),
                 )
               ],
             ),

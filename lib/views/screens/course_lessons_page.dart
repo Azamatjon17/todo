@@ -50,6 +50,7 @@ class _CourseLessonsPageState extends State<CourseLessonsPage> {
       ),
     );
 
+    // ignore: unnecessary_null_comparison
     if (newLesson != null) {
       await _lessonController.addLesson(newLesson);
       setState(() {
@@ -98,6 +99,7 @@ class _CourseLessonsPageState extends State<CourseLessonsPage> {
       ),
     );
 
+    // ignore: unnecessary_null_comparison
     if (updatedLesson != null) {
       await _lessonController.editLesson(updatedLesson);
       setState(() {

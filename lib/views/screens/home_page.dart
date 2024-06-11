@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo/controllers/course_controller.dart';
 import 'package:todo/models/course.dart';
-import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/course_screen.dart';
 
 class HomePage extends StatefulWidget {

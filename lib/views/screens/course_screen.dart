@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:todo/models/course.dart';
 import 'package:todo/views/screens/lesson_page.dart';
 
+// ignore: must_be_immutable
 class CourseScreen extends StatelessWidget {
   Course course;
   CourseScreen({super.key, required this.course});

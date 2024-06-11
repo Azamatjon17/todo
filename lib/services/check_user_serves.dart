@@ -23,9 +23,7 @@ class CheckUserServes {
       );
 
       if (response.statusCode != 200) {
-        return {
-          'error': 'Request failed with status: ${response.statusCode}'
-        };
+        return {'error': 'Request failed with status: ${response.statusCode}'};
       }
 
       final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -35,6 +33,8 @@ class CheckUserServes {
       }
 
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString("token", data["idToken"]);
+      await sharedPreferences.setString("localId", data["localId"]);
       await sharedPreferences.setString(
           "tokenTime",
           DateTime.now()
@@ -47,9 +47,7 @@ class CheckUserServes {
 
       return data;
     } catch (error) {
-      return {
-        'error': '$error'
-      };
+      return {'error': '$error'};
     }
   }
 }

@@ -38,7 +38,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       } else {
         AppConsts.themeMode = ThemeMode.dark;
       }
-
+      AppConsts.token = sharedPreference.getString("token");
+      AppConsts.localId = sharedPreference.getString("localId");
       String? dateTimes = sharedPreference.getString("tokenTime");
       if (dateTimes != null) {
         DateTime time = DateTime.parse(dateTimes);

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/controllers/course_controller.dart';
+import 'package:todo/controllers/favorute_course_controller.dart';
 import 'package:todo/models/course.dart';
+import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/course_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +15,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FavoruteCourseController favoruteCourseController = FavoruteCourseController();
   CourseController courseController = CourseController();
+
+  onFavoruite(Course course) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String userId = sharedPreferences.getString("localId")!;
+
+    await favoruteCourseController.addFavoriteCourse(course, userId);
+    course.isLike = !course.isLike;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -133,8 +147,24 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Text(
                                       courses[index].title,
-                                      style: const TextStyle(fontSize: 25),
+                                      style: const TextStyle(fontSize: 20),
                                     ),
+                                    const Spacer(),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.bookmark_add_outlined),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        onFavoruite(courses[index]);
+                                      },
+                                      icon: courses[index].isLike
+                                          ? const Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            )
+                                          : const Icon(Icons.favorite_border),
+                                    )
                                   ],
                                 ),
                               ],

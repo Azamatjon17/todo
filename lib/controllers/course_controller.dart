@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo/controllers/favorute_course_controller.dart';
 import 'package:todo/models/course.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo/models/lesson.dart';
@@ -9,15 +11,23 @@ class CourseController {
   List<Course> get list => [..._list];
 
   Future<List<Course>> getCourse() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String userId = sharedPreferences.getString("localId")!;
     List<Course> courses = [];
     final uri = Uri.parse("https://todo-2a867-default-rtdb.firebaseio.com/courses.json");
     final response = await http.get(uri);
     Map<String, dynamic> data = jsonDecode(response.body);
+    Map<String, dynamic> favorutes = await FavoruteCourseController.getFavoriteByUserId(userId);
+    final userids = favorutes.values.toList();
+    List<String> curseId = [];
+    userids.forEach((value) {
+      curseId.add(value['courseId']);
+    });
 
     for (var entry in data.entries) {
       String key = entry.key;
       var value = entry.value;
-
+      bool isLike = curseId.contains(key);
       List<Lesson> lessons = await getLessonByCourseId(key);
 
       Course course = Course(
@@ -26,6 +36,7 @@ class CourseController {
         description: value['description'],
         lessons: lessons,
         imageUrl: value['imageUrl'],
+        isLike: isLike,
       );
 
       courses.add(course);
@@ -54,19 +65,6 @@ class CourseController {
         'title': course.title,
         'description': course.description,
         'imageUrl': course.imageUrl,
-        'lessons': course.lessons.map((lesson) => {
-              'id': lesson.id,
-              'courseId': lesson.courseId,
-              'title': lesson.title,
-              'description': lesson.description,
-              'videoUrl': lesson.videoUrl,
-              'quizes': lesson.quizes.map((quiz) => {
-                    'id': quiz.id,
-                    'question': quiz.question,
-                    'options': quiz.options,
-                    'correctOptionIndex': quiz.correctOptionIndex,
-                  }).toList(),
-            }).toList(),
       }),
     );
 
@@ -90,18 +88,6 @@ class CourseController {
         'title': course.title,
         'description': course.description,
         'imageUrl': course.imageUrl,
-        'lessons': course.lessons.map((lesson) => {
-              'courseId': lesson.courseId,
-              'title': lesson.title,
-              'description': lesson.description,
-              'videoUrl': lesson.videoUrl,
-              'quizes': lesson.quizes.map((quiz) => {
-                    'id': quiz.id,
-                    'question': quiz.question,
-                    'options': quiz.options,
-                    'correctOptionIndex': quiz.correctOptionIndex,
-                  }).toList(),
-            }).toList(),
       }),
     );
 

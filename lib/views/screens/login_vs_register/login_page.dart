@@ -29,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
         errorEmail = ""; // Reset error message
       });
       formkey.currentState!.save();
-      print(logindata + passworddata);
       final response = await checkUserServes.register(logindata, passworddata, "signInWithPassword");
 
       setState(() {

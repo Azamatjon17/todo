@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/utils/app_consts.dart';
 
+// ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
   Function() setMain;
   SettingsPage({super.key, required this.setMain});

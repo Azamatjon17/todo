@@ -14,14 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  FavoruteCourseController favoruteCourseController = FavoruteCourseController();
+  FavoriteCourseController favoruteCourseController = FavoriteCourseController();
   CourseController courseController = CourseController();
 
   onFavoruite(Course course) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String userId = sharedPreferences.getString("localId")!;
-
-    await favoruteCourseController.addFavoriteCourse(course, userId);
+    if (!course.isLike) {
+      await favoruteCourseController.addFavoriteCourse(course, userId);
+    } else {
+      favoruteCourseController.deleteFavorite(course, userId);
+    }
     course.isLike = !course.isLike;
     setState(() {});
   }
@@ -158,6 +161,7 @@ class _HomePageState extends State<HomePage> {
                                         onFavoruite(courses[index]);
                                       },
                                       icon: courses[index].isLike
+                                      
                                           ? const Icon(
                                               Icons.favorite,
                                               color: Colors.red,

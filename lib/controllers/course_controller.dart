@@ -14,20 +14,26 @@ class CourseController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String userId = sharedPreferences.getString("localId")!;
     List<Course> courses = [];
+
     final uri = Uri.parse("https://todo-2a867-default-rtdb.firebaseio.com/courses.json");
+
     final response = await http.get(uri);
-    Map<String, dynamic> data = jsonDecode(response.body);
-    Map<String, dynamic> favorutes = await FavoruteCourseController.getFavoriteByUserId(userId);
-    final userids = favorutes.values.toList();
-    List<String> curseId = [];
-    userids.forEach((value) {
-      curseId.add(value['courseId']);
-    });
+    final data = jsonDecode(response.body);
+
+    final favorutes = await FavoriteCourseController.getFavoriteByUserId(userId);
+    List<String> curseIds = [];
+
+    if (favorutes != null) {
+      final userids = favorutes.values.toList();
+      userids.forEach((value) {
+        curseIds.add(value['courseId']);
+      });
+    }
 
     for (var entry in data.entries) {
       String key = entry.key;
       var value = entry.value;
-      bool isLike = curseId.contains(key);
+      bool isLike = curseIds.contains(key);
       List<Lesson> lessons = await getLessonByCourseId(key);
 
       Course course = Course(

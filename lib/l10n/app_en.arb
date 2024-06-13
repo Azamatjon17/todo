@@ -24,6 +24,16 @@
             }
         }
     },
-
-    "course": "Course"
+    "course": "Course",
+    "todos": "Todos",
+    "notes": "Notes",
+    "settings": "Settings",
+    "adminpanel": "Admin Panel",
+    "homepage": "Home Page",
+    "statisticpage": "Statistic Page",
+    "profilepage": "Profil Page",
+    "darkmode": "Dark mode",
+    "name": "Name",
+    "surname": "Surname",
+    "number": "Number"
 }

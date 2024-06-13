@@ -5,7 +5,8 @@ import 'package:todo/views/screens/statistics_page.dart';
 import 'package:todo/views/widgets/drawer/drawer_page.dart';
 
 class ManagerPage extends StatefulWidget {
-  const ManagerPage({super.key});
+  Function() mainSetState;
+  ManagerPage({super.key, required this.mainSetState});
 
   @override
   State<ManagerPage> createState() => _ManagerPageState();
@@ -14,11 +15,18 @@ class ManagerPage extends StatefulWidget {
 class _ManagerPageState extends State<ManagerPage> with TickerProviderStateMixin {
   int currentIndex = 0;
 
-  final List<Widget> pages = [
-    const HomePage(),
-    const StatisticsPage(),
-    const ProfilePage(),
-  ];
+  late List<Widget> pages;
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      HomePage(
+        mainSetState: widget.mainSetState,
+      ),
+      const StatisticsPage(),
+      const ProfilePage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

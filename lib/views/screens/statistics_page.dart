@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/controllers/note_controller.dart';
 import 'package:todo/controllers/todo_controllers.dart';
 import 'package:todo/models/todo_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
@@ -46,7 +47,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     return Column(
       children: [
         AppBar(
-          title: const Text("Statistic Page"),
+          title: Text(AppLocalizations.of(context)!.statisticpage),
           centerTitle: true,
         ),
         Expanded(

@@ -5,4 +5,5 @@ abstract class AppConsts {
   static Function()? setMainState;
   static String? token;
   static String? localId;
+  static String lenguage = "en";
 }

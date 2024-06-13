@@ -4,12 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/controllers/course_controller.dart';
 import 'package:todo/controllers/favorute_course_controller.dart';
 import 'package:todo/models/course.dart';
+import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/course_screen.dart';
 import 'package:todo/views/widgets/search_view_delegate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  Function() mainSetState;
+  HomePage({super.key, required this.mainSetState});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -41,9 +43,28 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppBar(
-            title: const Text("Home Page"),
+            title: Text(AppLocalizations.of(context)!.homepage),
             centerTitle: true,
             actions: [
+              DropdownButton(
+                value: AppConsts.lenguage,
+                items: const [
+                  DropdownMenuItem(
+                    value: "uz",
+                    child: Text("uz"),
+                  ),
+                  DropdownMenuItem(
+                    value: "en",
+                    child: Text("en"),
+                  )
+                ],
+                onChanged: (value) {
+                  AppConsts.lenguage = value!;
+                  setState(() {
+                    widget.mainSetState();
+                  });
+                },
+              ),
               IconButton(
                   onPressed: () {
                     setState(() {});
@@ -64,8 +85,8 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width / 2 - 40,
                     alignment: Alignment.center,
-                    child: const Text(
-                      "Todos",
+                    child: Text(
+                      AppLocalizations.of(context)!.todos,
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
@@ -81,8 +102,8 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width / 2 - 40,
                     alignment: Alignment.center,
-                    child: const Text(
-                      "Notes",
+                    child: Text(
+                      AppLocalizations.of(context)!.notes,
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),

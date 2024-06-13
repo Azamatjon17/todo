@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/utils/app_consts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -19,8 +20,8 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Column(
         children: [
           SwitchListTile(
-              title: const Text(
-                "Dark mode",
+              title: Text(
+                AppLocalizations.of(context)!.darkmode,
                 style: TextStyle(fontSize: 25),
               ),
               value: themaMode,

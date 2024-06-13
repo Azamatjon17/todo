@@ -5,7 +5,8 @@ import 'package:todo/services/check_user_serves.dart';
 import 'package:todo/views/screens/login_vs_register/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  Function() mainSetState;
+  RegisterPage({super.key, required this.mainSetState});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -46,7 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
+            builder: (context) => LoginScreen(
+              mainSetState: widget.mainSetState,
+            ),
           ),
         );
       } else {

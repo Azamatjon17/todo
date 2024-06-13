@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:todo/services/check_user_serves.dart';
 import 'package:todo/views/screens/login_vs_register/register_page.dart';
-import 'package:todo/views/screens/maneger_page.dart';// Fixed typo in ManagerPage import
+import 'package:todo/views/screens/maneger_page.dart'; // Fixed typo in ManagerPage import
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  Function() mainSetState;
+  LoginScreen({super.key, required this.mainSetState});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -39,7 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const ManagerPage(),
+              builder: (context) => ManagerPage(
+                mainSetState: widget.mainSetState,
+              ),
             ));
       } else {
         setState(() {
@@ -179,7 +182,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RegisterPage(),
+                        builder: (context) => RegisterPage(
+                          mainSetState: widget.mainSetState,
+                        ),
                       ),
                     );
                   },

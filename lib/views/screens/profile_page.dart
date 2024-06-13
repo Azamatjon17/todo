@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/controllers/user_controller.dart';
 import 'package:todo/views/widgets/edit_profile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -42,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: [
           AppBar(
-            title: const Text("Profile Page"),
+            title: Text(AppLocalizations.of(context)!.profilepage),
             centerTitle: true,
             actions: [
               IconButton(
@@ -78,17 +79,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Name: ${userController.user.name}",
+                    "${AppLocalizations.of(context)!.name}: ${userController.user.name}",
                     style: const TextStyle(fontSize: 15),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Surname: ${userController.user.surname}",
+                    "${AppLocalizations.of(context)!.surname}: ${userController.user.surname}",
                     style: const TextStyle(fontSize: 15),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Number: ${userController.user.phoneNumber}",
+                    "${AppLocalizations.of(context)!.number}: ${userController.user.phoneNumber}",
                     style: const TextStyle(fontSize: 15),
                   ),
                 ],

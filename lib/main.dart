@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/admin_panel_page.dart';
@@ -35,6 +34,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     final sharedPreference = await SharedPreferences.getInstance();
     setState(() {
       bool? themabool = sharedPreference.getBool('themeMode');
+
       if (themabool == null || themabool == false) {
         AppConsts.themeMode = ThemeMode.light;
       } else {
@@ -43,6 +43,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       AppConsts.token = sharedPreference.getString("token");
       AppConsts.localId = sharedPreference.getString("localId");
       String? dateTimes = sharedPreference.getString("tokenTime");
+      if (sharedPreference.getString("lenguage") != null) {
+        AppConsts.lenguage = sharedPreference.getString("lenguage")!;
+      }
       if (dateTimes != null) {
         DateTime time = DateTime.parse(dateTimes);
         isToken = DateTime.now().isBefore(time);
@@ -62,6 +65,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     final sharedPreference = await SharedPreferences.getInstance();
     bool theme = AppConsts.themeMode == ThemeMode.dark ? true : false;
     await sharedPreference.setBool("themeMode", theme);
+    await sharedPreference.setString("lenguage", AppConsts.lenguage);
   }
 
   void toggleThemeMode() {
@@ -71,7 +75,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: const Locale('uz'),
+      locale: Locale(AppConsts.lenguage),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(colorSchemeSeed: Colors.blue),
@@ -81,7 +85,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routes: {
         '/todo': (context) => const TodoPage(),
         '/note': (context) => const NotePage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => HomePage(
+              mainSetState: () {
+                setState(() {});
+              },
+            ),
         '/settings': (context) => SettingsPage(
               setMain: toggleThemeMode,
             ),
@@ -89,7 +97,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               mainSetState: toggleThemeMode,
             ),
       },
-      home: isToken ? const ManagerPage() : const LoginScreen(),
+      home: isToken
+          ? ManagerPage(
+              mainSetState: () {
+                setState(() {});
+              },
+            )
+          : LoginScreen(
+              mainSetState: () {
+                setState(() {});
+              },
+            ),
     );
   }
 }

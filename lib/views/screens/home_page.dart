@@ -5,6 +5,7 @@ import 'package:todo/controllers/course_controller.dart';
 import 'package:todo/controllers/favorute_course_controller.dart';
 import 'package:todo/models/course.dart';
 import 'package:todo/views/screens/course_screen.dart';
+import 'package:todo/views/widgets/search_view_delegate.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Course> filterData = [];
+
   FavoriteCourseController favoruteCourseController = FavoriteCourseController();
   CourseController courseController = CourseController();
 
@@ -109,75 +112,97 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               List<Course> courses = snapshot.data!;
-              return ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount: courses.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Card(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CourseScreen(
-                                    course: courses[index],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              if (filterData.isNotEmpty) {
+                courses = filterData;
+              }
+              return Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        Course? result = await showSearch(
+                          context: context,
+                          delegate: SearchViewDelegate(courses),
+                        );
+                        if (result != null) filterData.add(result);
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          padding: const EdgeInsets.all(10),
+                          itemCount: courses.length,
+                          itemBuilder: (context, index) {
+                            return Column(
                               children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                                  child: FadeInImage(
-                                    height: 170,
-                                    width: double.infinity,
-                                    placeholder: const AssetImage('assets/gifs/loading2.gif'),
-                                    image: NetworkImage(
-                                      courses[index].imageUrl,
+                                Card(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CourseScreen(
+                                            course: courses[index],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                                          child: FadeInImage(
+                                            height: 170,
+                                            width: double.infinity,
+                                            placeholder: const AssetImage('assets/gifs/loading2.gif'),
+                                            image: NetworkImage(
+                                              courses[index].imageUrl,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        const Gap(10),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              courses[index].title,
+                                              style: const TextStyle(fontSize: 20),
+                                            ),
+                                            const Spacer(),
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(Icons.bookmark_add_outlined),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                onFavoruite(courses[index]);
+                                              },
+                                              icon: courses[index].isLike
+                                                  ? const Icon(
+                                                      Icons.favorite,
+                                                      color: Colors.red,
+                                                    )
+                                                  : const Icon(Icons.favorite_border),
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                const Gap(10),
-                                Row(
-                                  children: [
-                                    Text(
-                                      courses[index].title,
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                    const Spacer(),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.bookmark_add_outlined),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        onFavoruite(courses[index]);
-                                      },
-                                      icon: courses[index].isLike
-                                      
-                                          ? const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                            )
-                                          : const Icon(Icons.favorite_border),
-                                    )
-                                  ],
-                                ),
+                                const Gap(20)
                               ],
-                            ),
-                          ),
-                        ),
-                        const Gap(20)
-                      ],
-                    );
-                  });
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              );
             },
           ))
         ],

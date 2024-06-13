@@ -1,0 +1,7 @@
+{
+    "helloWorld": "Salom Dunyo!",
+    "apple": "OLma",
+    "hello": "Salom  {username}",
+    "nApples": "{count, plural, =0{OLmalar yo'q} =1{Bitta olma} other{{count} OLmalar}}",
+    "course": "Kurslar"
+}

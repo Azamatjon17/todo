@@ -6,6 +6,7 @@ import 'package:todo/controllers/favorute_course_controller.dart';
 import 'package:todo/models/course.dart';
 import 'package:todo/views/screens/course_screen.dart';
 import 'package:todo/views/widgets/search_view_delegate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -90,8 +91,8 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const Gap(5),
-          const Text(
-            " Courses",
+          Text(
+            AppLocalizations.of(context)!.course,
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, letterSpacing: 2),
           ),
           Expanded(

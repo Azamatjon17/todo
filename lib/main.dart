@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/utils/app_consts.dart';
 import 'package:todo/views/screens/admin_panel_page.dart';
@@ -8,6 +9,7 @@ import 'package:todo/views/screens/maneger_page.dart';
 import 'package:todo/views/screens/note_page.dart';
 import 'package:todo/views/screens/settings_page.dart';
 import 'package:todo/views/screens/todo_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -69,6 +71,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: const Locale('uz'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(colorSchemeSeed: Colors.blue),
       darkTheme: ThemeData.dark(),
       themeMode: AppConsts.themeMode,
